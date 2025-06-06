@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Selamat Ulang Tahun Sania!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at center, #1f1f2e, #0d0d15);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding: 1rem;
+      position: relative;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 700px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      position: relative;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+    }
+
+    #greeting {
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: #ff86c3;
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      animation: fadeInUp 1s ease forwards;
+      animation-delay: 0.3s;
+    }
+
+    #message {
+      font-size: 1rem;
+      text-align: left;
+      white-space: pre-wrap;
+      line-height: 1.8;
+      color: #e0e0e0;
+      opacity: 0;
+      animation: fadeInUp 1.5s ease forwards;
+      animation-delay: 0.6s;
+    }
+
+    #startBtn {
+      padding: 14px 30px;
+      font-size: 1.1rem;
+      background: linear-gradient(135deg, #ff5fa2, #ff95c5);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      box-shadow: 0 6px 20px rgba(255, 149, 197, 0.4);
+    }
+
+    #startBtn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 25px rgba(255, 149, 197, 0.6);
+    }
+
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(0.9); }
+    }
+
+    .fade-out {
+      animation: fadeOut 0.5s forwards;
+    }
+
+    .character {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      width: 90px;
+      z-index: 0;
+      animation: bounce 2s infinite ease-in-out;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .thought-bubble {
+      position: fixed;
+      bottom: 120px;
+      right: 30px;
+      background: #fff;
+      color: #333;
+      padding: 12px 18px;
+      border-radius: 20px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      box-shadow: 0 5px 15px rgba(255,255,255,0.2);
+      animation: pop 0.5s ease-out, float 3s infinite ease-in-out;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 10;
+      user-select: none;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    /* Tombol tangkap Rifai / prediksi */
+    #catchBtn {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 14px 28px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #ff5fa2, #ff95c5);
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 8px 30px rgba(255, 149, 197, 0.7);
+      user-select: none;
+      display: none;
+      transition: all 0.3s ease;
+    }
+
+    #catchBtn:hover {
+      transform: translate(-50%, -50%) scale(1.05);
+      box-shadow: 0 12px 40px rgba(255, 149, 197, 0.9);
+    }
+
+    @media (max-width: 480px) {
+      #greeting { font-size: 1.7rem; }
+      #message { font-size: 0.95rem; }
+      .container { padding: 1.5rem 1rem; }
+      .character { width: 65px; right: 5px; }
+      .thought-bubble {
+        bottom: 100px;
+        right: 15px;
+        font-size: 0.85rem;
+        padding: 8px 14px;
+      }
+      #catchBtn {
+        font-size: 1.1rem;
+        padding: 12px 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="mainContainer">
+    <h1 id="greeting"></h1>
+    <button id="startBtn">Hai Sania, klik aku ya 🥺</button>
+    <div id="message"></div>
+  </div>
+
+  <!-- Karakter -->
+  <svg class="character" id="character" viewBox="0 0 80 100">
+    <circle cx="40" cy="40" r="35" fill="#ffcccb"/>
+    <circle cx="28" cy="35" r="5" fill="#613318"/>
+    <circle cx="52" cy="35" r="5" fill="#613318"/>
+    <circle cx="40" cy="55" r="4" fill="#613318"/>
+    <path d="M28 50 C30 60, 50 60, 52 50" stroke="#613318" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="40" cy="80" r="8" fill="#ffcccb"/>
+    <circle cx="35" cy="78" r="2" fill="#613318"/>
+    <circle cx="45" cy="78" r="2" fill="#613318"/>
+    <path d="M35 82 C38 85, 42 85, 45 82" stroke="#613318" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </svg>
+
+  <!-- Awan Pikiran -->
+  <div class="thought-bubble" id="thoughtBubble">tekan aku 🤍</div>
+
+  <!-- Tombol Tangkap Rifai -->
+  <button id="catchBtn">tangkap Rifai</button>
+
+  <script>
+    const greetingText = `Selamat ulang tahun, Sania! 🥳✨`;
+    const mainMessageText = `Wih udah umur ke-sekian yaa, makin bertambah usia tentu nya makin keren dong (keren bgt si sebenarnya) 😝
+Semoga semua yang lagi adek usahakan dilancarkan satu per satu tanpa banyak keluar air mata yaa, tanpa hambatan sedikitpun, inshaallah aku baris terdepan untuk membantu proses kamu 🤍
+
+Jangan pernah lupa sama keluarga, teman dekat, apalagi rifai, dan tentu aja Tuhan yang selalu punya rencana paling hebat untuk adek.
+
+Semoga KKN-nya juga lancar yaa, gak ada hambatan sedikit pun, dari awal sampai akhir semuanya smooth lancar kaya kita dari padang ke pekanbaru pas berangkat malam wkwk
+
+Hehe senang kali rasanya masih bisa nemenin dan ngerayain ulang tahun kamu dari awal SMA sampai sekarang. Walaupun banyak struggle di hubungan katanya 3 tahun lebih ini, tapi kita masih bisa bareng-bareng, masih banyak bahagia nya di banding sedihnya, masih saling jaga di era LDR ini, tentu nya masih satu cerita🫶🏻
+
+Have a beautiful birth day yaa adek💖`;
+
+    const startBtn = document.getElementById('startBtn');
+    const greetingEl = document.getElementById('greeting');
+    const messageEl = document.getElementById('message');
+    const character = document.getElementById('character');
+    const thoughtBubble = document.getElementById('thoughtBubble');
+    const catchBtn = document.getElementById('catchBtn');
+
+    thoughtBubble.style.opacity = '0';
+
+    function typeWriter(text, el, speed = 30, callback = () => {}) {
+      el.innerHTML = '';
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          el.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
+        } else {
+          callback();
+        }
+      }
+      type();
+    }
+
+    startBtn.addEventListener('click', () => {
+      startBtn.classList.add('fade-out');
+      setTimeout(() => {
+        startBtn.style.display = 'none';
+        greetingEl.style.display = 'block';
+        messageEl.style.display = 'block';
+        greetingEl.innerText = greetingText;
+        typeWriter(mainMessageText, messageEl, 30, () => {
+          thoughtBubble.style.opacity = '1';
+        });
+        character.style.opacity = '1';
+      }, 500);
+    });
+
+    // Fungsi untuk generate posisi acak tombol di viewport
+    function randomPositionWithinViewport(btn) {
+      const padding = 40; // untuk menghindari tombol terlalu pinggir
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const btnRect = btn.getBoundingClientRect();
+
+      const maxX = vw - btnRect.width - padding;
+      const maxY = vh - btnRect.height - padding;
+
+      const x = Math.random() * maxX + padding / 2;
+      const y = Math.random() * maxY + padding / 2;
+      return { x, y };
+    }
+
+    thoughtBubble.addEventListener('click', () => {
+      // Sembunyikan semua teks dan karakter
+      greetingEl.style.display = 'none';
+      messageEl.style.display = 'none';
+      character.style.opacity = '0';
+      thoughtBubble.style.opacity = '0';
+
+      // Tampilkan tombol tangkap Rifai di tengah
+      catchBtn.style.display = 'block';
+      catchBtn.innerText = 'tangkap Rifai';
+      catchBtn.disabled = true;
+
+      // Posisi tengah
+      catchBtn.style.top = '50%';
+      catchBtn.style.left = '50%';
+      catchBtn.style.transform = 'translate(-50%, -50%)';
+
+      let moveCount = 0;
+      const maxMoves = 12; // 12 x 0.5s = 6 detik
+
+      const moveInterval = setInterval(() => {
+        if (moveCount >= maxMoves) {
+          clearInterval(moveInterval);
+          // Hentikan tombol, aktifkan klik
+          catchBtn.disabled = false;
+          catchBtn.style.cursor = 'pointer';
+          catchBtn.style.transform = 'translate(-50%, -50%)'; // pastikan di tengah saat berhenti
+          return;
+        }
+        const pos = randomPositionWithinViewport(catchBtn);
+        catchBtn.style.top = pos.y + 'px';
+        catchBtn.style.left = pos.x + 'px';
+        catchBtn.style.transform = 'translate(0, 0)'; // reset transform karena pakai top/left
+
+        moveCount++;
+      }, 500);
+    });
+
+    catchBtn.addEventListener('click', () => {
+      if (catchBtn.innerText === 'tangkap Rifai') {
+        // Ubah tombol jadi prediksi jodoh kamu
+        catchBtn.innerText = 'prediksi jodoh kamu';
+        // Pastikan tombol di tengah dan tidak bergerak
+        catchBtn.style.top = '50%';
+        catchBtn.style.left = '50%';
+        catchBtn.style.transform = 'translate(-50%, -50%)';
+      } else if (catchBtn.innerText === 'prediksi jodoh kamu') {
+        // Buka WA dengan nomor dan pesan otomatis
+        const waNumber = '6285788552218';
+        const waText = encodeURIComponent('lucu banget!! makasih sayangku 🩷');
+        window.open(`https://wa.me/${waNumber}?text=${waText}`, '_blank');
+      }
+    });
+  </script>
+
+</body>
+</html>
